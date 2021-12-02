@@ -1,6 +1,22 @@
-public struct DIWrapper {
-    public private(set) var text = "Hello, World!"
+//
+//  File.swift
+//  
+//
+//  Created by Andrey Petrovskiy on 02.12.2021.
+//
 
-    public init() {
+import Foundation
+
+@propertyWrapper
+public struct DIWrapper<Dependecy> {
+    private(set) var dependecy: Dependecy
+    
+    public init(){
+        self.dependecy = Resolver.shared.resolve(Dependecy.self)
+    }
+    
+    public var wrappedValue: Dependecy {
+        get { return dependecy}
+        mutating set { dependecy = newValue }
     }
 }
