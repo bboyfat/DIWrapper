@@ -1,20 +1,21 @@
 //
-//  File.swift
+//  DISingletone.swift
 //  
 //
-//  Created by Andrey Petrovskiy on 02.12.2021.
+//  Created by Andrey Petrovskiy on 10.12.2021.
 //
 
 import Foundation
 
 @propertyWrapper
-public struct DIWrapper<Dependecy> {
+/// Use this wrapper when you need property singletone
+public struct DISingletone<Dependecy> {
     private(set) var dependecy: Dependecy
-    
+
     public init(){
-        self.dependecy = Resolver.shared.resolve(Dependecy.self)
+        self.dependecy = Resolver.shared.resolveSingletone(Dependecy.self)
     }
-    
+
     public var wrappedValue: Dependecy {
         get { return dependecy}
         mutating set { dependecy = newValue }
