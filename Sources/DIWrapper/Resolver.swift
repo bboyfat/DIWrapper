@@ -52,4 +52,10 @@ public class Resolver {
             fatalError("!!!!You has frogot to addModuleStatic \(String(describing: T.self))!!!!")
         }
     }
+
+    // MARK: - Clear module dependencies
+    public func clearModuleDependecies() {
+        staticDict = [:]
+        factoryDict = [:]
+    }
 }
