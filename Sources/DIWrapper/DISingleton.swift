@@ -9,12 +9,12 @@ import Foundation
 
 @propertyWrapper
 /// Use this wrapper when you need property singletone
-public struct DISingletone<Dependecy> {
+public struct DISingleton<Dependecy> {
     private(set) var dependecy: Dependecy
 
     public init(){
         self.dependecy = Resolver.shared.resolve(Dependecy.self,
-                                                 registrationType: .shared)
+                                                 registrationType: .singleton)
     }
 
     public var wrappedValue: Dependecy {

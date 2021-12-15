@@ -13,7 +13,7 @@ public struct DIDynamic<Dependecy> {
     
     public init(){
         self.dependecy = Resolver.shared.resolve(Dependecy.self,
-                                                 registrationType: .dynamic)
+                                                 registrationType: .newInstance)
     }
     
     public var wrappedValue: Dependecy {

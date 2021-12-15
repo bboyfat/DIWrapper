@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 public enum ResolverRegistrationType {
-    case shared
-    case dynamic
-    case module
+    case singleton
+    case newInstance
+    case moduleSingleton
 }
 
 public class Resolver {
@@ -19,29 +19,29 @@ public class Resolver {
     public static let shared = Resolver()
     private var factoryDict: [Bundle : [String: () -> Any]] = [:]
     private var staticDict: [Bundle : [String: Any]] = [:]
-    private static var singletoneDict: [String: Any] = [:]
+    private static var singletonDict: [String: Any] = [:]
 
 
     /// Register dependencies
     /// bundle = unoque identifier for dictionaries if you are working with ModuleArchitecture, by default is .main
     /// registration type = instance type registration
     public func add<T>(bundle: Bundle = .main,
-                       registrationType: ResolverRegistrationType = .dynamic,
+                       registrationType: ResolverRegistrationType = .newInstance,
                        type: T.Type, _ factory: @escaping () -> T) {
         switch registrationType {
-        case .dynamic:
+        case .newInstance:
             if factoryDict[bundle] != nil {
                 factoryDict[bundle]?[String(describing: type.self)] = factory
             } else {
                 factoryDict[bundle] = [String(describing: type.self) : factory]
             }
             factoryDict[bundle]?[String(describing: type.self)] = factory
-        case .module:
+        case .moduleSingleton:
             let object = factory()
             addModuleStatic(bundle: bundle, type: type, object: object)
-        case .shared:
+        case .singleton:
             let shareObject = factory()
-            addSingletone(type: type, object: shareObject)
+            addSingleton(type: type, object: shareObject)
         }
     }
 
@@ -53,18 +53,18 @@ public class Resolver {
         }
     }
 
-    private func addSingletone<T>(type: T.Type, object: T) {
-        Resolver.singletoneDict[String(describing: type.self)] = object
+    private func addSingleton<T>(type: T.Type, object: T) {
+        Resolver.singletonDict[String(describing: type.self)] = object
     }
 
 
     public func resolve<T>(_ type: T.Type, registrationType: ResolverRegistrationType) -> T {
         switch registrationType {
-        case .shared:
+        case .singleton:
             return resolveSingletone(type)
-        case .dynamic:
+        case .newInstance:
             return resolveDynamic(type)
-        case .module:
+        case .moduleSingleton:
             return resolveModuleStatic(type)
         }
 
@@ -88,7 +88,7 @@ public class Resolver {
 
     @discardableResult
     private func resolveSingletone<T>(_ type: T.Type) -> T {
-        if let component: T = Resolver.singletoneDict[String(describing: T.self)] as? T {
+        if let component: T = Resolver.singletonDict[String(describing: T.self)] as? T {
         return component
         } else {
             fatalError("!!!!You has frogot to add \(String(describing: T.self))!!!!")
@@ -117,6 +117,6 @@ public class Resolver {
     }
 
     public func clearSharedDependecies() {
-        Resolver.singletoneDict = [:]
+        singletonDict = [:]
     }
 }

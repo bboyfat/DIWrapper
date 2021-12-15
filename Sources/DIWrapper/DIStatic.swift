@@ -15,7 +15,7 @@ public struct DIStatic<Dependecy> {
 
     public init(){
         self.dependecy = Resolver.shared.resolve(Dependecy.self,
-                                                 registrationType: .module)
+                                                 registrationType: .moduleSingleton)
     }
 
     public var wrappedValue: Dependecy {
