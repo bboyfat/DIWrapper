@@ -26,7 +26,7 @@ public class Resolver {
                        type: T.Type, _ factory: @escaping () -> T) {
         switch registrationType {
         case .dynamic:
-            if factoryDict.count > 0 {
+            if factoryDict[bundle] != nil {
                 factoryDict[bundle]?[String(describing: type.self)] = factory
             } else {
                 factoryDict[bundle] = [String(describing: type.self) : factory]
@@ -42,7 +42,7 @@ public class Resolver {
     }
 
     private func addModuleStatic<T>(bundle: Bundle, type: T.Type, object: T) {
-        if staticDict.count > 0 {
+        if staticDict[bundle] != nil {
             staticDict[bundle]?[String(describing: type.self)] = object
         } else {
             staticDict[bundle] = [String(describing: type.self) : object]
