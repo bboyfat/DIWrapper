@@ -26,7 +26,7 @@ public class Resolver {
                        type: T.Type, _ factory: @escaping () -> T) {
         switch registrationType {
         case .dynamic:
-            factoryDict[bundle] = [String(describing: type.self) : factory]
+            factoryDict[bundle]?[String(describing: type.self)] = factory
         case .module:
             let object = factory()
             addModuleStatic(bundle: bundle, type: type, object: object)
@@ -37,7 +37,7 @@ public class Resolver {
     }
 
     private func addModuleStatic<T>(bundle: Bundle, type: T.Type, object: T) {
-        staticDict[bundle] = [String(describing: type.self) : object]
+        staticDict[bundle]?[String(describing: type.self)] =  object
     }
 
     private func addSingletone<T>(type: T.Type, object: T) {
