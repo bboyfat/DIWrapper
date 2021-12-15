@@ -54,7 +54,7 @@ public class Resolver {
     }
 
     private func addSingleton<T>(type: T.Type, object: T) {
-        Resolver.singletonDict[String(describing: type.self)] = object
+        singletonDict[String(describing: type.self)] = object
     }
 
 
@@ -88,8 +88,8 @@ public class Resolver {
 
     @discardableResult
     private func resolveSingletone<T>(_ type: T.Type) -> T {
-        if let component: T = Resolver.singletonDict[String(describing: T.self)] as? T {
-        return component
+        if let component: T = singletonDict[String(describing: T.self)] as? T {
+            return component
         } else {
             fatalError("!!!!You has frogot to add \(String(describing: T.self))!!!!")
         }
