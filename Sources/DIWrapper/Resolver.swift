@@ -104,6 +104,6 @@ public class Resolver {
     }
 
     public func clearSharedDependecies() {
-        singletoneDict = [:]
+        Resolver.singletoneDict = [:]
     }
 }
