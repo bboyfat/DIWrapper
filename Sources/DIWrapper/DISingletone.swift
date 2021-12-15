@@ -13,7 +13,8 @@ public struct DISingletone<Dependecy> {
     private(set) var dependecy: Dependecy
 
     public init(){
-        self.dependecy = Resolver.shared.resolveSingletone(Dependecy.self)
+        self.dependecy = Resolver.shared.resolve(Dependecy.self,
+                                                 registrationType: .shared)
     }
 
     public var wrappedValue: Dependecy {

@@ -14,7 +14,8 @@ public struct DIStatic<Dependecy> {
     private(set) var dependecy: Dependecy
 
     public init(){
-        self.dependecy = Resolver.shared.resolveModuleStatic(Dependecy.self)
+        self.dependecy = Resolver.shared.resolve(Dependecy.self,
+                                                 registrationType: .module)
     }
 
     public var wrappedValue: Dependecy {
