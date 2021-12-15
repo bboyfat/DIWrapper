@@ -21,6 +21,10 @@ public class Resolver {
     private var staticDict: [Bundle : [String: Any]] = [:]
     private static var singletoneDict: [String: Any] = [:]
 
+
+    /// Register dependencies
+    /// bundle = unoque identifier for dictionaries if you are working with ModuleArchitecture, by default is .main
+    /// registration type = instance type registration
     public func add<T>(bundle: Bundle = .main,
                        registrationType: ResolverRegistrationType = .dynamic,
                        type: T.Type, _ factory: @escaping () -> T) {
