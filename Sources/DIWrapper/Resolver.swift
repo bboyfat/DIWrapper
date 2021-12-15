@@ -19,7 +19,7 @@ public class Resolver {
     public static let shared = Resolver()
     private var factoryDict: [Bundle : [String: () -> Any]] = [:]
     private var staticDict: [Bundle : [String: Any]] = [:]
-    private static var singletonDict: [String: Any] = [:]
+    private var singletonDict: [String: Any] = [:]
 
 
     /// Register dependencies
